@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Point System</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h1>Welcome to the Game Point System!</h1>
+    <p>Current Points: <span id="points">{{ points }}</span></p>
+    <p>Casual Games Played Today: <span id="casual_games_played">{{ casual_games_played }}</span></p>
+
+    <h2>Options</h2>
+    <button onclick="showSection('casual-game')">Play a casual game</button>
+    <button onclick="showSection('competitive-game')">Play a competitive game</button>
+    <button onclick="showSection('buy-power-up')">Buy a power-up</button>
+    <button onclick="showSection('add-time')">Add time played</button>
+
+    <div id="casual-game" class="option-section" style="display:none;">
+        <h3>Play a Casual Game</h3>
+        <form id="casualGameForm">
+            <label for="score">Score:</label>
+            <input type="number" id="score" name="score" required>
+            <label for="won_game">Did you win the game?</label>
+            <select id="won_game" name="won_game">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="competitive-game" class="option-section" style="display:none;">
+        <h3>Play a Competitive Game</h3>
+        <form id="competitiveGameForm">
+            <label for="score">Score:</label>
+            <input type="number" id="score" name="score" required>
+            <label for="won_game">Did you win the game?</label>
+            <select id="won_game" name="won_game">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+
+    <div id="buy-power-up" class="option-section" style="display:none;">
+        <h3>Buy a Power-Up</h3>
+        <form id="buyPowerUpForm">
+            <select id="power_up" name="power_up">
+                <option value="coaching_session">Coaching Session (5000 points)</option>
+                <option value="new_workshop_map">New Workshop Map (5000 points)</option>
+                <option value="que_with_pro">Que with Pro (7500 points)</option>
+            </select>
+            <button type="submit">Buy</button>
+        </form>
+    </div>
+
+    <div id="add-time" class="option-section" style="display:none;">
+        <h3>Add Time Played</h3>
+        <form id="addTimePlayedForm">
+            <label for="time_played">Time Played (hours):</label>
+            <input type="number" id="time_played" name="time_played" step="0.1" required>
+            <button type="submit">Add</button>
+        </form>
+    </div>
+
+    <script>
+        function showSection(sectionId) {
+            document.querySelectorAll('.option-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
+        }
+
+        $(document).ready(function() {
+            $('#casualGameForm').on('submit', function(e) {
+                e.preventDefault();
+                $.post('/play_casual_game', $(this).serialize(), function(data) {
+                    if (data.success) {
+                        $('#points').text(data.points);
+                        $('#casual_games_played').text(data.casual_games_played);
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+
+            $('#competitiveGameForm').on('submit', function(e) {
+                e.preventDefault();
+                $.post('/play_competitive_game', $(this).serialize(), function(data) {
+                    if (data.success) {
+                        $('#points').text(data.points);
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+
+            $('#buyPowerUpForm').on('submit', function(e) {
+                e.preventDefault();
+                $.post('/buy_power_up', $(this).serialize(), function(data) {
+                    if (data.success) {
+                        $('#points').text(data.points);
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+
+            $('#addTimePlayedForm').on('submit', function(e) {
+                e.preventDefault();
+                $.post('/add_time_played', $(this).serialize(), function(data) {
+                    if (data.success) {
+                        $('#points').text(data.points);
+                    } else {
+                        alert(data.message);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
