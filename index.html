@@ -5,59 +5,116 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Game Point System</title>
     <style>
-        .section { display: none; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: #333;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1, h2, h3 {
+            text-align: center;
+        }
+        p {
+            font-size: 18px;
+        }
+        button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .section {
+            display: none;
+            margin-top: 20px;
+        }
+        input, select {
+            display: block;
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        label {
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to the Game Point System!</h1>
-    <p>Current Points: <span id="points">0</span></p>
-    <p>Casual Games Played Today: <span id="casualGamesPlayed">0</span></p>
+    <div class="container">
+        <h1>Welcome to the Game Point System!</h1>
+        <p>Current Points: <span id="points">0</span></p>
+        <p>Casual Games Played Today: <span id="casualGamesPlayed">0</span></p>
 
-    <h2>Options</h2>
-    <button onclick="showSection('casual-game')">Play a casual game</button>
-    <button onclick="showSection('competitive-game')">Play a competitive game</button>
-    <button onclick="showSection('buy-power-up')">Buy a power-up</button>
-    <button onclick="showSection('add-time')">Add time played</button>
+        <h2>Options</h2>
+        <button onclick="showSection('casual-game')">Play a casual game</button>
+        <button onclick="showSection('competitive-game')">Play a competitive game</button>
+        <button onclick="showSection('buy-power-up')">Buy a power-up</button>
+        <button onclick="showSection('add-time')">Add time played</button>
 
-    <div id="casual-game" class="section">
-        <h3>Play a Casual Game</h3>
-        <label for="casualScore">Score:</label>
-        <input type="number" id="casualScore" required>
-        <label for="casualWon">Did you win the game?</label>
-        <select id="casualWon">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-        <button onclick="playCasualGame()">Submit</button>
-    </div>
+        <div id="casual-game" class="section">
+            <h3>Play a Casual Game</h3>
+            <label for="casualScore">Score:</label>
+            <input type="number" id="casualScore" required>
+            <label for="casualWon">Did you win the game?</label>
+            <select id="casualWon">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button onclick="playCasualGame()">Submit</button>
+        </div>
 
-    <div id="competitive-game" class="section">
-        <h3>Play a Competitive Game</h3>
-        <label for="compScore">Score:</label>
-        <input type="number" id="compScore" required>
-        <label for="compWon">Did you win the game?</label>
-        <select id="compWon">
-            <option value="yes">Yes</option>
-            <option value="no">No</option>
-        </select>
-        <button onclick="playCompetitiveGame()">Submit</button>
-    </div>
+        <div id="competitive-game" class="section">
+            <h3>Play a Competitive Game</h3>
+            <label for="compScore">Score:</label>
+            <input type="number" id="compScore" required>
+            <label for="compWon">Did you win the game?</label>
+            <select id="compWon">
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+            </select>
+            <button onclick="playCompetitiveGame()">Submit</button>
+        </div>
 
-    <div id="buy-power-up" class="section">
-        <h3>Buy a Power-Up</h3>
-        <select id="powerUp">
-            <option value="coaching_session">Coaching Session (5000 points)</option>
-            <option value="new_workshop_map">New Workshop Map (5000 points)</option>
-            <option value="que_with_pro">Que with Pro (7500 points)</option>
-        </select>
-        <button onclick="buyPowerUp()">Buy</button>
-    </div>
+        <div id="buy-power-up" class="section">
+            <h3>Buy a Power-Up</h3>
+            <select id="powerUp">
+                <option value="coaching_session">Coaching Session (5000 points)</option>
+                <option value="new_workshop_map">New Workshop Map (5000 points)</option>
+                <option value="que_with_pro">Que with Pro (7500 points)</option>
+            </select>
+            <button onclick="buyPowerUp()">Buy</button>
+        </div>
 
-    <div id="add-time" class="section">
-        <h3>Add Time Played</h3>
-        <label for="timePlayed">Time Played (hours):</label>
-        <input type="number" id="timePlayed" step="0.1" required>
-        <button onclick="addTimePlayed()">Add</button>
+        <div id="add-time" class="section">
+            <h3>Add Time Played</h3>
+            <label for="timePlayed">Time Played (hours):</label>
+            <input type="number" id="timePlayed" step="0.1" required>
+            <button onclick="addTimePlayed()">Add</button>
+        </div>
     </div>
 
     <script>
