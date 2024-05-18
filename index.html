@@ -23,12 +23,14 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             max-width: 400px;
             width: 100%;
+            text-align: center;
         }
         h1, h2, h3 {
             text-align: center;
         }
         p {
-            font-size: 18px;
+            font-size: 20px;
+            font-weight: bold;
         }
         button {
             display: block;
@@ -41,9 +43,13 @@
             color: white;
             font-size: 16px;
             cursor: pointer;
+            transition: background-color 0.3s ease;
         }
         button:hover {
-            background-color: #0056b3;
+            background-color: #a37cf0;
+        }
+        button:active {
+            background-color: #682bd7;
         }
         .section {
             display: none;
@@ -68,6 +74,7 @@
         <h1>Welcome to the Game Point System!</h1>
         <p>Current Points: <span id="points">0</span></p>
         <p>Casual Games Played Today: <span id="casualGamesPlayed">0</span></p>
+        <p>Competitive Games Played: <span id="compGamesPlayed">0</span></p>
 
         <h2>Options</h2>
         <button onclick="showSection('casual-game')">Play a casual game</button>
@@ -120,6 +127,7 @@
     <script>
         let points = 0;
         let casualGamesPlayed = 0;
+        let compGamesPlayed = 0;
 
         function showSection(sectionId) {
             document.querySelectorAll('.section').forEach(section => {
@@ -160,8 +168,10 @@
                 points += 250;
             }
             points += Math.floor(score / 2);
+            compGamesPlayed += 1;
 
             document.getElementById('points').textContent = points;
+            document.getElementById('compGamesPlayed').textContent = compGamesPlayed;
         }
 
         function buyPowerUp() {
