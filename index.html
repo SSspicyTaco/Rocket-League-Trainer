@@ -6,7 +6,7 @@
     <title>Game Point System</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Roboto', sans-serif;
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
@@ -24,6 +24,12 @@
             max-width: 400px;
             width: 100%;
             text-align: center;
+        }
+        header, footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
         }
         h1, h2, h3 {
             text-align: center;
@@ -67,11 +73,24 @@
         label {
             font-size: 16px;
         }
+        .feedback {
+            margin-top: 10px;
+            font-size: 16px;
+        }
+        .success {
+            color: green;
+        }
+        .error {
+            color: red;
+        }
     </style>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
 </head>
 <body>
+    <header>
+        <h1>Game Point System</h1>
+    </header>
     <div class="container">
-        <h1>Welcome to the Game Point System!</h1>
         <p>Current Points: <span id="points">0</span></p>
         <p>Casual Games Played Today: <span id="casualGamesPlayed">0</span></p>
         <p>Competitive Games Played: <span id="compGamesPlayed">0</span></p>
@@ -122,7 +141,12 @@
             <input type="number" id="timePlayed" step="0.1" required>
             <button onclick="addTimePlayed()">Add</button>
         </div>
+
+        <div id="feedback" class="feedback"></div>
     </div>
+    <footer>
+        <p>&copy; 2024 Game Point System</p>
+    </footer>
 
     <script>
         let points = 0;
@@ -138,7 +162,7 @@
 
         function playCasualGame() {
             if (casualGamesPlayed >= 5) {
-                alert('Daily limit reached');
+                showFeedback('Daily limit reached', 'error');
                 return;
             }
             const score = parseInt(document.getElementById('casualScore').value);
@@ -150,8 +174,8 @@
             points += Math.floor(score / 2);
             casualGamesPlayed += 1;
 
-            document.getElementById('points').textContent = points;
-            document.getElementById('casualGamesPlayed').textContent = casualGamesPlayed;
+            updateDisplay();
+            showFeedback('Casual game submitted successfully', 'success');
         }
 
         function playCompetitiveGame() {
@@ -159,7 +183,7 @@
             const wonGame = document.getElementById('compWon').value;
 
             if (points < 1000) {
-                alert('Not enough points to play a competitive game');
+                showFeedback('Not enough points to play a competitive game', 'error');
                 return;
             }
             points -= 1000;
@@ -170,8 +194,8 @@
             points += Math.floor(score / 2);
             compGamesPlayed += 1;
 
-            document.getElementById('points').textContent = points;
-            document.getElementById('compGamesPlayed').textContent = compGamesPlayed;
+            updateDisplay();
+            showFeedback('Competitive game submitted successfully', 'success');
         }
 
         function buyPowerUp() {
@@ -184,10 +208,10 @@
 
             if (points >= costs[powerUp]) {
                 points -= costs[powerUp];
-                document.getElementById('points').textContent = points;
-                alert('Power-up bought successfully');
+                updateDisplay();
+                showFeedback('Power-up bought successfully', 'success');
             } else {
-                alert('Not enough points');
+                showFeedback('Not enough points', 'error');
             }
         }
 
@@ -198,7 +222,20 @@
             const intervalsPlayed = Math.floor(timePlayed * 60 / intervalDuration);
             points += intervalsPlayed * pointsPerInterval;
 
+            updateDisplay();
+            showFeedback('Time added successfully', 'success');
+        }
+
+        function updateDisplay() {
             document.getElementById('points').textContent = points;
+            document.getElementById('casualGamesPlayed').textContent = casualGamesPlayed;
+            document.getElementById('compGamesPlayed').textContent = compGamesPlayed;
+        }
+
+        function showFeedback(message, type) {
+            const feedbackElement = document.getElementById('feedback');
+            feedbackElement.textContent = message;
+            feedbackElement.className = 'feedback ' + type;
         }
     </script>
 </body>
