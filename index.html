@@ -10,10 +10,6 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             color: #333;
         }
         .container {
@@ -24,6 +20,7 @@
             max-width: 400px;
             width: 100%;
             text-align: center;
+            margin: 20px auto;
         }
         header, footer {
             text-align: center;
@@ -90,7 +87,17 @@
     <header>
         <h1>Game Point System</h1>
     </header>
-    <div class="container">
+    <div class="container" id="loginContainer">
+        <h2>Login</h2>
+        <form id="loginForm">
+            <input type="text" id="username" placeholder="Username" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <button type="submit">Login</button>
+        </form>
+        <div id="errorMessage" class="error"></div>
+    </div>
+
+    <div class="container" id="gameContent" style="display: none;">
         <p>Current Points: <span id="points">0</span></p>
         <p>Casual Games Played Today: <span id="casualGamesPlayed">0</span></p>
         <p>Competitive Games Played: <span id="compGamesPlayed">0</span></p>
@@ -137,15 +144,15 @@
 
         <div id="add-time" class="section">
             <h3>Add Time Played</h3>
-            <label for="timePlayed">Time Played (hours):</label>
-            <input type="number" id="timePlayed" step="0.1" required>
+            <label for="timePlayed">Time Played (minutes):</label>
+            <input type="number" id="timePlayed" step="1" required>
             <button onclick="addTimePlayed()">Add</button>
         </div>
 
         <div id="feedback" class="feedback"></div>
     </div>
     <footer>
-        <p>&copy; 2024 Game Point System</p>
+        <p>&copy; 2024 SSspicyTaco</p>
     </footer>
 
     <script>
@@ -217,17 +224,16 @@
 
         function addTimePlayed() {
             const timePlayed = parseFloat(document.getElementById('timePlayed').value);
-            const pointsPerInterval = 1000;
-            const intervalDuration = 33; // minutes
-            const intervalsPlayed = Math.floor(timePlayed * 60 / intervalDuration);
-            points += intervalsPlayed * pointsPerInterval;
+            const pointsPerMinute = 1000 / 33;
+            const pointsEarned = timePlayed * pointsPerMinute;
+            points += pointsEarned;
 
             updateDisplay();
             showFeedback('Time added successfully', 'success');
         }
 
         function updateDisplay() {
-            document.getElementById('points').textContent = points;
+            document.getElementById('points').textContent = Math.floor(points);
             document.getElementById('casualGamesPlayed').textContent = casualGamesPlayed;
             document.getElementById('compGamesPlayed').textContent = compGamesPlayed;
         }
@@ -237,6 +243,24 @@
             feedbackElement.textContent = message;
             feedbackElement.className = 'feedback ' + type;
         }
+
+        document.getElementById("loginForm").addEventListener("submit", function(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get username and password from input fields
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+
+            // Simulate authentication (replace with actual authentication logic)
+            if (username === "SSspicyTaco" && password === "Twitch") {
+                // Hide login form and show game content
+                document.getElementById("loginContainer").style.display = "none";
+                document.getElementById("gameContent").style.display = "block";
+            } else {
+                // Display error message for invalid credentials
+                document.getElementById("errorMessage").textContent = "Invalid username or password";
+            }
+        });
     </script>
 </body>
 </html>
